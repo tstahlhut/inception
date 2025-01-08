@@ -1,0 +1,9 @@
+#version: "3" # Defines the version of Docker Compose file format (version 3 does not support build and link as v2 does but relies on networks)
+
+services:
+  nginx:
+    image: nginx
+    ports:
+     # - "443:443"
+      - "8080:80"
+    restart: always

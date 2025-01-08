@@ -49,6 +49,50 @@ To download a special version, use the ":"
 
 For this project, however, you have to build all your docker images youself, except for Debian or Alpine.
 
+### Write your own Dockerfile
+
+A Dockerfile is a script that contains instructions for building a customized docker image. Each instruction in a Dockerfile (e.g. "FROM", "RUN", "COPY") creates a new layer in the image, and the final image is composed of all the layers stacked on top of each other.
+
+#### 1. Create file
+
+Create a new file and name it "Dockerfile".
+
+#### 2. Instructions: FROM
+
+	FROM <image>
+
+**FROM** specifies the base image on which the container will be build. 
+
+The base image is essentially the starting environment for the container. It could be an operating system (like Debian or Alpine) or a pre-built image tailored for specific use cases (like Node.js or Python images).
+
+For example:
+
+	FROM node:14-alpine3.16
+
+This specifies the official Node.js image, version 14, built on top of the lightweight alpine Linux distribution version 3.16. It is a **pre-configured image**.
+
+But there do not exist pre-configured images for all services. If you want to write your own dockerfile for nginx, you just specify the base image (e.g. alpine or debian) in "FROM" and then install nginx with the "RUN" instruction.
+
+#### 3. Instructions: RUN
+
+This is a command that is used in a Dockerfile to execute a command in the terminal of the container. It is typically used to install software or libraries that are needed by the application.
+
+#### 4. Instructions: COPY
+
+The COPY instruction in a Dockerfile is used to copy files or directories from your local host machine (the Docker build context) into the Docker image during the build process.
+
+	COPY [source] [destination]
+
+
+#### Sources for this Section
+
+Source: [Medium article](https://medium.com/@anshita.bhasin/a-step-by-step-guide-to-create-dockerfile-9e3744d38d11)
+[README by Forstman1](https://github.com/Forstman1/inception-42/tree/main)
+
+and ChatGPT
+
+### Run a Docker Container
+
 Then you can run the docker image:
 
 	docker run -d -t --name my_container pulled_image
@@ -238,6 +282,7 @@ With docker compose, you simply write these instructions into a docker-compose f
 			restart: always
 
 Mind the tabs in the beginning, they are important!
+
 The docker-compose file should be in its own directory. If not, you have to add some specifications.
 Then run the docker-compose file (optionally with "-d" to run it in the background):
 
@@ -254,6 +299,22 @@ To inquire about them (and only the docker-compose containers):
 And to delete them fully, as well as the created network, type:
 
 	sudo docker-compose down
+
+#### Simple Docker-Compose Example File
+
+	version: '3'    # Defines the version of Docker Compose file format
+	services:       # List of services (containers)
+		service_name: # Name of the service/container
+			image: image_name:tag   # The Docker image to use
+			ports:                 # Expose ports
+			- "host_port:container_port"
+			environment:           # Environment variables
+			- KEY=value
+			volumes:               # Volumes to mount
+			- ./local_path:/container_path
+			networks:              # Define networks if needed
+			- network_name
+
 
 ## NGINX
 
@@ -340,6 +401,10 @@ Open the file "nginx.conf". You can even delete its content and rewrite it from 
 After having configured the config file, you have to reload nginx:
 
 	nginx -s reload
+
+You can check if the configuration is ok by running:
+
+	nginx -t
 
 #### Mimes
 
@@ -465,3 +530,41 @@ If you want nginx to load balance between different backend servers, you can do 
 
 Resources:
 [Youtube Video by Laith Academy](https://www.youtube.com/watch?v=7VAI73roXaY)
+
+
+### TLSv1.2 and TLSv1.3
+
+TLSv1.2 (released in 2008) and TLSv1.3 (released in 2018) are versions of the **Transport Layer Security (TLS)** protocol, which is used to secure communication over the internet. TLS ensures privacy, data integrity, and authentication when you connect to websites, APIs, or other services.
+
+#### What is TLS?
+
+TLS (Transport Layer Security) is the successor to the now-obsolete SSL (Secure Sockets Layer) protocol. It is used in:
+
+ -   HTTPS (secure HTTP)
+ -   Securing emails (SMTP, IMAP, POP)
+ -  VPNs and other secure connections.
+
+#### Configure TLS for Nginx
+
+1. Open your NGINX configuration file, e.g., /etc/nginx/nginx.conf or /etc/nginx/conf.d/default.conf.
+
+2. Add or modify the following directives in your server block:
+
+	server {
+		listen 443 ssl;
+
+		# SSL certificate and private key
+		ssl_certificate /path/to/server.crt;
+		ssl_certificate_key /path/to/server.key;
+
+		# Enable only TLSv1.2 and TLSv1.3
+		ssl_protocols TLSv1.2 TLSv1.3;
+
+		# Use secure ciphers
+		ssl_ciphers HIGH:!aNULL:!MD5;
+
+		# Other SSL optimizations
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:10m;
+		ssl_session_timeout 10m;
+	}
