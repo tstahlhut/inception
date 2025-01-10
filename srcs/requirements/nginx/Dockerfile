@@ -2,9 +2,9 @@
 
 FROM	alpine:3.20
 
-COPY	./conf/default /etc/nginx/nginx.conf
 
 # 1. install nginx and openssl (to create self_signed ssl certificate for TLS)
+#	Note: in Alpine no confirmation (-y) required
 # 2. create dir to store self-signed ssl certificate (-p if it does not already exist)
 # 3. create self-signed ssl certificate
 #	req = create certificate request (CSR)
@@ -16,8 +16,18 @@ COPY	./conf/default /etc/nginx/nginx.conf
 #	-out = specifies output file for certificate itself
 #	-subj "" = sets metadata, e.g. C = country, L = city, O = organization, CN = usually domain name
 # do all in one RUN command to speed things up (otherwise we will have several layers)
-RUN		sudo apk update -y && sudo apk add nginx openssl -y
-		&& mkdir -p /etc/nginx/ssl 
-		&& openssl req 
+RUN		apk update && apk add nginx openssl \
+		&& mkdir -p /etc/nginx/ssl \
+		&& openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+		-keyout /etc/nginx/ssl/my_cert.key \
+		-out /etc/nginx/ssl/my_cert.crt \
+		-subj "/C=DE/ST=Berlin/L=Berlin/O=42/OU=42/CN=tstahlhu.42.fr"
+
+COPY	./conf/nginx.conf /etc/nginx/nginx.conf
+COPY	./conf/default.conf /etc/nginx/http.d/default.conf
+#COPY	./conf/default /etc/nginx/sites-available/default
 
 EXPOSE	443
+
+#ensure that nginx is running in the foreground so that container stays alive as long as nginx runs
+CMD 	["nginx", "-g", "daemon off;"]

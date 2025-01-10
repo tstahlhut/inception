@@ -5,10 +5,6 @@ A 42 project in which you use Docker and Docker-compose to host a Wordpress Webs
 "This project aims to broaden your knowledge of system administration by using Docker. You will virtualize several Docker images, creating them in your new personal virtual
 machine." (from the subject)
 
-## 42 Project - To Do
-
-1. Makefile (at root dir): sets up entire application (i.e. builds Docker images using docker-compose.yml)
-
 ## VirtualBox
 
 ### Transfer Virtual Machine from one host machine to another
@@ -35,9 +31,7 @@ Start the VM:
     After importing, the VM should appear in your VirtualBox list. You can start it normally.
 
 
-## Docker
-
-### Docker Containers
+## Docker Containers
 
 To build a docker container you have to build or pull a docker image first. You can pull the image from Docker Hub:
 
@@ -106,6 +100,10 @@ To see your running containers, use:
 
 	docker ps
 
+To see all your containers, run:
+
+	docker ps -a
+
 To see memory usage and so forth:
 
 	docker stats
@@ -125,6 +123,20 @@ In order to stop a container from running, you just type:
 To restart the container:
 
 	docker start container_name
+
+To see the status of the containers, type:
+
+	docker ps -a
+
+And to remove a container, simply type
+
+	docker rm [name of container]
+
+into the terminal.
+
+You can also remove all containers that are in the "Exited" state, i.e. that are not running with the following command:
+
+	docker container prune
 
 
 ### Docker Networks
