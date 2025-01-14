@@ -21,7 +21,7 @@ RUN		apk update && apk add nginx openssl \
 		&& openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 		-keyout /etc/nginx/ssl/my_cert.key \
 		-out /etc/nginx/ssl/my_cert.crt \
-		-subj "/C=DE/ST=Berlin/L=Berlin/O=42/OU=42/CN=tstahlhu.42.fr"
+		-subj "/C=DE/ST=Berlin/L=Berlin/O=42/OU=42/CN=$(DOMAIN_NAME)"
 
 COPY	./conf/nginx.conf /etc/nginx/nginx.conf
 COPY	./conf/default.conf /etc/nginx/http.d/default.conf
