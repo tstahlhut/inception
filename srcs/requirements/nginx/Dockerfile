@@ -23,7 +23,7 @@ RUN		apk update && apk add nginx openssl \
 		-out /etc/nginx/ssl/my_cert.crt \
 		-subj "/C=DE/ST=Berlin/L=Berlin/O=42/OU=42/CN=tstahlhu.42.fr"
 
-COPY	./conf/nginx.conf /etc/nginx/nginx.conf
+#COPY	./conf/nginx.conf /etc/nginx/nginx.conf
 COPY	./conf/default.conf /etc/nginx/http.d/default.conf
 #COPY	./conf/default /etc/nginx/sites-available/default
 
