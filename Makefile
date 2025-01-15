@@ -6,7 +6,7 @@
 #    By: tstahlhu <tstahlhu@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 11:55:53 by tstahlhu          #+#    #+#              #
-#    Updated: 2025/01/15 09:23:19 by tstahlhu         ###   ########.fr        #
+#    Updated: 2025/01/15 15:17:22 by tstahlhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ all:	up
 install:
 		sudo apt update 
 		sudo apt install docker.io docker-compose -y
+
+bup:
+	@sudo docker-compose -f ./srcs/docker-compose.yml up --build -d
 
 up:
 	@sudo docker-compose -f ./srcs/docker-compose.yml up -d 

@@ -22,6 +22,16 @@ skip-networking
 # Allow server to accept connections on all interfaces.
 #
 bind-address=0.0.0.0
+port=3306
+
+socket  = /var/run/mysqld/mysqld.sock
+
+# This is the default directory where mysql stores data
+datadir=/var/lib/mysql
+
+# By default, MariaDB runs as the mysql user to ensure it has limited access to system resources.
+user=mysql
+
 #
 # Optional setting
 #wsrep_slave_threads=1
@@ -40,4 +50,3 @@ bind-address=0.0.0.0
 # use this group for options that older servers don't understand
 [mariadb-10.5]
 
-socket  = /run/mysqld/mysqld.sock
