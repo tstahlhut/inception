@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tstahlhu <tstahlhu@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: tstahlhu <tstahlhu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 11:55:53 by tstahlhu          #+#    #+#              #
-#    Updated: 2025/01/10 13:16:22 by tstahlhu         ###   ########.fr        #
+#    Updated: 2025/01/14 12:46:54 by tstahlhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,22 +21,22 @@ install:
 		sudo apt install docker.io docker-compose -y
 
 up:
-	@sudo docker-compose -f ./srcs/docker-compose.yml up  --build -d 
-#	@docker-compose -f ./srcs/docker-compose.yml up -d 
+#	@sudo docker-compose -f ./srcs/docker-compose.yml up  --build -d 
+	@docker-compose -f ./srcs/docker-compose.yml up -d 
 	
 # -d let's it run in background
 	
 
 stop:
-	@sudo docker-compose -f ./srcs/docker-compose.yml stop
-#	@docker-compose -f ./srcs/docker-compose.yml stop
+#	@sudo docker-compose -f ./srcs/docker-compose.yml stop
+	@docker-compose -f ./srcs/docker-compose.yml stop
 
 down:
-	@sudo docker-compose -f ./srcs/docker-compose.yml down
+#	@sudo docker-compose -f ./srcs/docker-compose.yml down
 	
-#	@docker-compose -f ./srcs/docker-compose.yml down
+	@docker-compose -f ./srcs/docker-compose.yml down
 
 list:
-	@sudo docker-compose -f ./srcs/docker-compose.yml ps
+#	@sudo docker-compose -f ./srcs/docker-compose.yml ps
 	
-#	@docker-compose -f ./srcs/docker-compose.yml ps
+	@docker-compose -f ./srcs/docker-compose.yml ps

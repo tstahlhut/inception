@@ -85,11 +85,24 @@ Source: [Medium article](https://medium.com/@anshita.bhasin/a-step-by-step-guide
 
 and ChatGPT
 
+### Build a Docker Container
+
+	docker build -t your-image-name:tag .
+
+E.g.:
+
+	docker build -t mariadb-container .
+
+This command will:
+
+    Look for a file named Dockerfile in the current directory (.).
+    Build the image and tag it as mariadb-container.
+
 ### Run a Docker Container
 
 Then you can run the docker image:
 
-	docker run -d -t --name my_container pulled_image
+	docker run -d -t --name my_container pulled/built_image
 
 To run the container you have options. The -p maps the port from the docker container to the host. First you specify the port of the host and then the port of the container:
 
