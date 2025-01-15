@@ -7,9 +7,11 @@ services:
       context: requirements
       dockerfile: nginx/Dockerfile
     ports:
-      - "8443:443"
+      - "443:443"
     env_file:
       - .env
+    networks:
+      - inception
     restart: on-failure
 
   mariadb:
@@ -19,6 +21,11 @@ services:
       dockerfile: mariadb/Dockerfile
     ports:
       - "3306:3306"
+    networks:
+      - inception
     env_file:
       - .env
     restart: unless-stopped
+
+networks:
+    inception:
