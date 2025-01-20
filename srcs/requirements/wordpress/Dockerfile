@@ -3,7 +3,8 @@
 FROM	debian:buster-slim
 
 RUN		apt-get update && apt-get install -y \
-		wget \
+	#	wordpress \
+	wget \
 	#	unzip \
 	#	git for wordpress plugins
 # php:
@@ -19,7 +20,7 @@ RUN		apt-get update && apt-get install -y \
 #		php7.3-mbstring
 # for HTTP requests (plugin/theme updates and REST API calls)
 #		php7.3-curl
-		#mariadb-client \
+		mariadb-client \
 		&& apt-get clean
 
 RUN		wget https://wordpress.org/wordpress-6.7.1.tar.gz -P /var/www \
@@ -27,11 +28,11 @@ RUN		wget https://wordpress.org/wordpress-6.7.1.tar.gz -P /var/www \
 		&& tar -xvzf wordpress-6.7.1.tar.gz \
 		&& rm wordpress-6.7.1.tar.gz 
 
-RUN		chown -R root:root /var/www/wordpress
+RUN		chown -R www-data:www-data /var/www/wordpress
 
-#COPY	./conf/php.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY	./conf/php.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 EXPOSE	9000
 
-#CMD		["php-fpm7.3", "-F"]
+CMD		["docker-entrypoint.sh", "php-fpm"]
 

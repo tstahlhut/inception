@@ -9,6 +9,8 @@
 [mysqld]
 skip-networking
 
+log_error = /var/log/mysql/mariadb.log
+
 # Galera-related settings
 [galera]
 # Mandatory settings
