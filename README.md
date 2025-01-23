@@ -340,6 +340,14 @@ And to delete them fully, as well as the created network, type:
 			networks:              # Define networks if needed
 			- network_name
 
+### Secrets
+
+See: https://docs.docker.com/compose/how-tos/use-secrets/
+And: https://docs.docker.com/engine/swarm/secrets/#advanced-example-use-secrets-with-a-wordpress-service
+
+### Volumes
+
+See: https://docs.docker.com/engine/storage/volumes/
 
 ## NGINX
 

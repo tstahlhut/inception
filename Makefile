@@ -6,7 +6,7 @@
 #    By: tstahlhu <tstahlhu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 11:55:53 by tstahlhu          #+#    #+#              #
-#    Updated: 2025/01/20 15:59:29 by tstahlhu         ###   ########.fr        #
+#    Updated: 2025/01/23 16:30:18 by tstahlhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,24 @@
 
 # Install docker and docker compose
 
-all:	up
+all:	bup
 
 install:
 		sudo apt update 
 		sudo apt install docker.io docker-compose -y
 
+build:
+#	@docker-compose -f ./srcs/docker-compose.yml build --no-cache
+	LOGIN=tstahlhu DATA_PATH=/home/tstahlhu/data DOMAIN=tstahlhu.42.fr docker-compose -f ./srcs/docker-compose.yml up -d --build
 bup:
+	@if [ ! -d "/home/tstahlhut/data/wordpress" ]; then \
+		echo "Creating /home/tstahlhut/data/wordpress"; \
+		cd ~ && mkdir -p data/wordpress; \
+	fi
+	@if [ ! -d "/home/tstahlhut/data/mariadb" ]; then \
+		echo "Creating /home/tstahlhut/data/mariadb"; \
+		cd ~ && mkdir -p data/mariadb; \
+	fi
 	@docker-compose -f ./srcs/docker-compose.yml up --build -d
 
 up:
@@ -39,6 +50,9 @@ down:
 	
 	@docker-compose -f ./srcs/docker-compose.yml down
 
+clearall:
+	@docker-compose -f ./srcs/docker-compose.yml down --volumes --remove-orphans
+	yes | rm -r /home/tstahlhu/data
 list:
 #	@sudo docker-compose -f ./srcs/docker-compose.yml ps
 	

@@ -7,9 +7,9 @@
 
 # this is only for the mysqld standalone daemon
 [mysqld]
-skip-networking
+#skip-networking
 
-log_error = /var/log/mysql/mariadb.log
+#log_error = /var/log/mysql/mariadb.log
 
 # Galera-related settings
 [galera]
