@@ -6,7 +6,7 @@
 #    By: tstahlhu <tstahlhu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 11:55:53 by tstahlhu          #+#    #+#              #
-#    Updated: 2025/01/23 16:30:18 by tstahlhu         ###   ########.fr        #
+#    Updated: 2025/01/24 12:37:07 by tstahlhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ build:
 bup:
 	@if [ ! -d "/home/tstahlhut/data/wordpress" ]; then \
 		echo "Creating /home/tstahlhut/data/wordpress"; \
-		cd ~ && mkdir -p data/wordpress; \
+		cd ~ && mkdir -p data/wordpress && chmod 777 data/wordpress; \
 	fi
 	@if [ ! -d "/home/tstahlhut/data/mariadb" ]; then \
 		echo "Creating /home/tstahlhut/data/mariadb"; \
-		cd ~ && mkdir -p data/mariadb; \
+		cd ~ && mkdir -p data/mariadb && chmod 777 data/mariadb; \
 	fi
 	@docker-compose -f ./srcs/docker-compose.yml up --build -d
 

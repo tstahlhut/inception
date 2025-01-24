@@ -29,8 +29,8 @@ services:
     env_file: .env
     networks:
       - inception
-   # ports:
-    #  - "3306:3306"    
+    ports:
+      - "3306:3306"    
     restart: on-failure #unless-stopped
     volumes:
      - mariadb-data:/var/lib/mysql/

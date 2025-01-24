@@ -1,42 +1,17 @@
-# wordpress container
+# penultimate version of debian as of jan/2025
 
-FROM	debian:buster-slim
+FROM		debian:bullseye
 
-RUN		apt-get update && apt-get install -y \
-	#	wordpress \
-		wget \
-	#	unzip \
-	#	git for wordpress plugins
-# php:
-# core php runtime
-		php7.3 \
-# to serve php files via fastcgi for nginx
-		php7.3-fpm \
-# communication with mariadb
-		php-mysql \ 
-# required for parsing XML data (RSS feeds)
-		php7.3-xml \
-# proper handling of UTF-8 (multilanguage)
-		php7.3-mbstring \
-# for HTTP requests (plugin/theme updates and REST API calls)
-		php7.3-curl \
-		mariadb-client \
-		&& apt-get clean
+RUN			apt update && apt upgrade && \
+			apt install -y php-fpm php-mysqli curl tini
 
-RUN		wget https://wordpress.org/wordpress-6.7.1.tar.gz -P /var/www/html \
-		&& cd /var/www/html \
-		&& tar -xvzf wordpress-6.7.1.tar.gz \
-		&& rm wordpress-6.7.1.tar.gz 
+COPY		./conf/php.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY		./tools/init.sh /tmp/config-script.sh
 
-RUN		chown -R www-data:www-data /var/www/html
+RUN			chmod +x /tmp/config-script.sh
 
-COPY	./conf/php.conf /etc/php/7.3/fpm/pool.d/www.conf
-COPY	./tools/script.sh /tmp/config-script.sh
-COPY	./conf/wp-config.php /var/www/html/wordpress/wp-config.php
+WORKDIR		/var/www/html
 
-WORKDIR	/var/www/html/wordpress
+ENTRYPOINT	["/usr/bin/tini", "--"]
 
-EXPOSE	9000
-
-CMD		["/tmp/config-script.sh"]
-
+CMD			["/tmp/config-script.sh"]
