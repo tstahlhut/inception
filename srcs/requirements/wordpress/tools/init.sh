@@ -44,7 +44,13 @@ chmod +x wp-cli.phar
 ./wp-cli.phar config create --allow-root --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASSWORD --dbhost=$WORDPRESS_DB_HOST --path=$WP_DIR
 
 # Install Wordpress (admin user, set up database tables)
-./wp-cli.phar core install --allow-root --url=localhost --title=$TITLE --admin_user=$DB_USER --admin_email=tstahlhu@student.42berlin.de --admin_password=$DB_PASSWORD --path=$WP_DIR
+./wp-cli.phar core install --allow-root --url=$DOMAIN --title=$TITLE --admin_user=$DB_USER --admin_email=tstahlhu@student.42berlin.de --admin_password=$DB_PASSWORD --path=$WP_DIR
+
+# Turn off comment moderation for easier testing
+./wp-cli.phar option update comment_moderation 0 --allow-root --path=$WP_DIR
+./wp-cli.phar option update comment_whitelist 0 --allow-root --path=$WP_DIR
 
 
-php-fpm7.4 -F
+php-fpm7.4 -F &
+trap "echo 'SIGTERM received'; exit 0" SIGTERM
+wait $!

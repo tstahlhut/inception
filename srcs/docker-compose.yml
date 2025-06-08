@@ -33,12 +33,6 @@ services:
     restart: on-failure #unless-stopped
     volumes:
      - mariadb-data:/var/lib/mysql/
-    #command: '--default-authentication-plugin=mysql_native_password'
-   # user: "101203:101203"
-   # healthcheck:
-    #  test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-     # interval: 20s
-      #retries: 10
     secrets:
       - credentials
       - db_password
@@ -72,19 +66,18 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${DATA_PATH}
+      device: ${DATA_PATH_WP}
   mariadb-data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${DATA_PATH}
+      device: ${DATA_PATH_DB}
 
 
 networks:
     inception:
      driver: bridge
-    # external: false
 
 secrets:
   credentials:

@@ -1,34 +1,78 @@
 # Inception
 
-A 42 project in which you use Docker and Docker-compose to host a Wordpress Website with Nginx, MariaDB and PHP.
+A 42 project in which I use Docker and Docker Compose to host a WordPress website with Nginx, MariaDB, and PHP.
 
-"This project aims to broaden your knowledge of system administration by using Docker. You will virtualize several Docker images, creating them in your new personal virtual
-machine." (from the subject)
+Inception is a **multi-container Docker application** - or in short, a **containerized web application**. It combines three main services:
 
-## VirtualBox
+- **Nginx**: acts as the web server and reverse proxy.
+- **WordPress**: the CMS application.
+- **MariaDB**: the relational database for WordPress.
 
-### Transfer Virtual Machine from one host machine to another
+Each service runs in its own container and is managed with Docker Compose, providing a modular and portable infrastructure.
 
-1. Export the VM:
+From the subject:
 
-	- Open VirtualBox on the source host.
-	- Select the VM you want to transfer.
-    - Go to File > Export Appliance.
-    - Follow the prompts to create an OVA file (Open Virtual Appliance). This file packages the VM and its settings into a portable format.
+*"This project aims to broaden your knowledge of system administration by using Docker. You will virtualize several Docker images, creating them in your new personal virtual machine."* 
 
-2. Transfer the OVA File:
 
-    Copy the OVA file to the target host machine. You can use a USB drive, network transfer, or cloud storage for this.
 
-3. Import the VM on the Target Machine:
+## Usage
 
-   - Open VirtualBox on the target host.
-   - Go to File > Import Appliance.
-   - Select the OVA file and follow the prompts to import it.
+#### 1. Install Docker and Docker Compose
 
-Start the VM:
+For this project to work, you have to have docker and docker compose installed. In the Makefile you will find an install rule which should work on Ubuntu:
 
-    After importing, the VM should appear in your VirtualBox list. You can start it normally.
+	make install
+
+Otherwise, please refer to the official [Docker Compose installation guide](https://docs.docker.com/compose/install/).
+
+#### 2. Clone Repository
+
+Clone this repository and navigate into the project directory:
+
+	git clone git@github.com:tstahlhut/inception.git inception
+	cd inception
+
+#### 3. Add Secrets Folder
+
+As a database is set up, you need to provide credentials. Create a secrets/ directory and three required files:
+
+	cd inception
+	mkdir secrets
+	cd secrets
+	touch credentials.txt db_password.txt db_root_password.txt
+
+- credentials.txt: Contains the admin username (one line).
+
+- db_password.txt: Contains the WordPress database user password.
+
+- db_root_password.txt: Contains the MariaDB root password.
+
+Each file should contain only the respective secret on a single line.
+
+#### 4. Add Domain to Hosts
+
+The application will run on https://tstahlhu.42.fr.  To access it locally, add the domain to your system's hosts file:
+
+	sudo nano /etc/hosts
+
+Add this line at the top:
+
+	127.0.0.1	tstahlhu.42.fr
+
+Save the changes and exit.
+
+You can change the domain name in both nginx.conf and .env if you prefer another domain.
+
+#### 5. Start application
+
+To build and run the project:
+
+	make
+
+to start the application. It will take some time as the containers are being build and set up. Ensure you are connected to the internet as the different services need to install the required packages. 
+
+If you run into any problems, feel free to contact me. 
 
 
 ## Docker Containers

@@ -33,12 +33,16 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 	echo "Initializing MariaDB database ... "
 	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
 	echo "MariaDB database initialized"
+
+	# Run SQL init script
+	echo "Running SQL script ... "
+	usr/bin/mysqld --user=mysql --bootstrap < ${SQL_FILE}
+	echo "MariaDB configuration done"
+else
+	echo "MariaDB already initialized. Skipping SQL script."
 fi
 
-# Run SQL init script
-echo "Running SQL script ... "
-usr/bin/mysqld --user=mysql --bootstrap < ${SQL_FILE}
-echo "MariaDB configuration done"
+
 
 # Start MariaDB service
 exec /usr/bin/mysqld --user=mysql --console

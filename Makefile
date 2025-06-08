@@ -6,7 +6,7 @@
 #    By: tstahlhu <tstahlhu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 11:55:53 by tstahlhu          #+#    #+#              #
-#    Updated: 2025/01/24 13:20:38 by tstahlhu         ###   ########.fr        #
+#    Updated: 2025/06/08 10:56:46 by tstahlhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ bup:
 		echo "Creating /data/mariadb"; \
 		cd ~ && mkdir -p data/mariadb && chmod 777 data/mariadb; \
 	fi
-	@docker compose -f ./srcs/docker-compose.yml build --no-cache
+	@docker compose -f ./srcs/docker-compose.yml build 
+#--no-cache
 	@docker compose -f ./srcs/docker-compose.yml up
 
 
